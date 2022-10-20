@@ -1,0 +1,27 @@
+body {
+    margin: 0;
+    background-image: url('./wallpaper.jpg');
+    background-repeat: no-repeat;
+    background-size: auto;
+    overflow: hidden;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #000;
+}
+
+.theme-dark {
+    color: #fff;
+}
+
+div {
+    position: absolute;
+    width: 50%;
+    height: 50%;
+    top: 25%;
+    left: 25%;
+    text-align: center;
+    user-select: none;
+}
+
+div * {
+    pointer-events: none;
+}
