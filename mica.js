@@ -42,10 +42,12 @@ window.addEventListener('load', async () => {
                 context.filter = 'blur(150px)';
 
                 if (darkTheme) {
-                    context.filter = 'brightness(30%) contrast(175%) blur(50px)';
+                    context.filter = 'hue-rotate(24deg) saturate(200%) brightness(40%) blur(150px)';
+                    context.globalAlpha = .3;
                 }
+                else
+                    context.globalAlpha = .1;
 
-                context.globalAlpha = .2;
                 context.drawImage(wallpaper, 0, 0);
 
                 if (applyBackground) {
@@ -59,49 +61,56 @@ window.addEventListener('load', async () => {
         });
     }
 
-    // createMicaBackgroundFromURLImage('wallpaper.jpg', true); // -> create mica backaground
+    // createMicaBackgroundFromURLImage('wallpaper.jpg', true); // -> create mica background
 
-    let canvas = await createMicaBackgroundFromURLImage('wallpaper.jpg', document.body.classList.contains('theme-dark'), false); // create canvas with mica-texture
+    if (document.body.dataset.micaUrl) {
+        let canvas = await createMicaBackgroundFromURLImage(document.body.dataset.micaUrl, document.body.classList.contains('theme-dark'), false); // create canvas with mica-texture
 
-    // apply mica effect where html class contains 'mica'
-    Object.values(document.querySelectorAll('.mica')).map((element, k) => {
-        element.style.background = `url('${canvas.toDataURL()}')`; // apply mica-effect
-        element.style.backgroundPosition = `${-element.offsetLeft}px ${-element.offsetTop}px`; // refresh background position
-    });
-
-    // apply drag where html class contains 'draggable'
-    Object.values(document.querySelectorAll('.draggable')).map((element, k) => {
-        element.style.position = 'absolute';
-
-        let click = {x: 0, y: 0, enable: false};
-
-
-        element.addEventListener('mousedown', (e) => {
-            click.x = e.offsetX;
-            click.y = e.offsetY;
-            click.enable = true;
+        // apply mica effect where html class contains 'mica'
+        Object.values(document.querySelectorAll('.mica')).map((element, k) => {
+            element.style.background = `url('${canvas.toDataURL()}')`; // apply mica-effect
+            element.style.backgroundPosition = `${-element.offsetLeft}px ${-element.offsetTop}px`; // refresh background position
         });
 
-        element.addEventListener('mouseup', (e) => {
-            click.enable = false;
+        // apply acrylic effect where html class contains 'acrylic'
+        Object.values(document.querySelectorAll('.acrylic')).map((element, k) => {
+            element.style.backdropFilter = 'blur(20px)';
         });
 
-        element.addEventListener('mousemove', (e) => {
-            if(click.enable) {
-                let x = e.clientX - click.x;
-                let y = e.clientY - click.y;
-                
-                element.style.left = x + 'px';
-                element.style.top = y + 'px';
+        // apply drag where html class contains 'draggable'
+        Object.values(document.querySelectorAll('.draggable')).map((element, k) => {
+            element.style.position = 'absolute';
 
-                element.style.backgroundPosition = `${-x}px ${-y}px`;
-            }
+            let click = { x: 0, y: 0, enable: false };
+
+
+            element.addEventListener('mousedown', (e) => {
+                click.x = e.offsetX;
+                click.y = e.offsetY;
+                click.enable = true;
+            });
+
+            element.addEventListener('mouseup', (e) => {
+                click.enable = false;
+            });
+
+            element.addEventListener('mousemove', (e) => {
+                if (click.enable) {
+                    let x = e.clientX - click.x;
+                    let y = e.clientY - click.y;
+
+                    element.style.left = x + 'px';
+                    element.style.top = y + 'px';
+
+                    element.style.backgroundPosition = `${-x}px ${-y}px`;
+                }
+            });
         });
-    });
 
-    // apply border where html class contains 'border'
-    Object.values(document.querySelectorAll('.border')).map((element, k) => {
-        element.style.border = `1px solid rgba(87,87,87,.329)`; // add border with color
-        element.style.borderRadius = `5px`; // border radius
-    });
+        // apply border where html class contains 'border'
+        Object.values(document.querySelectorAll('.border')).map((element, k) => {
+            element.style.border = `1px solid rgba(87,87,87,.329)`; // add border with color
+            element.style.borderRadius = `5px`; // border radius
+        });
+    }
 });

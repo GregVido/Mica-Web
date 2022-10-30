@@ -14,7 +14,7 @@ To use <b>Mica-Web</b>, you must include the <a href="mica.js">mica.js</a> scrip
 <script src="./mica.js"></script>
 ```
 
-After adding script, add a class in your element to apply the mica effect.
+After adding script, add a class in your element to apply the mica effect.<br>
 Exemple:
 
 ```html
@@ -26,11 +26,15 @@ Exemple:
 
 The `mica` keyword applies the mica effect, `draggable` activates window displacement, and `border` applies windows 11 border to the element.
 
+You can replace the keyword `mica` with `acrylic` to have an acrylic background.
+
+
 Default, the theme is light, but if you want to force dark theme, add `theme-dark` to body like this :
 
 ```html
-<body class="theme-dark">
+<body class="theme-dark" data-mica-url="./wallpaper.jpg">
 ```
+<b>The `data-mica-url` attribute is very important.</b><br>
 
 <h2>Exemple</h2>
 
